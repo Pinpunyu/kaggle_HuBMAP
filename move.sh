@@ -1,0 +1,1 @@
+mv data/hubmap-hacking-the-human-vasculature/train/image/*.tif data/hubmap-hacking-the-human-vasculature/train/ori

@@ -15,21 +15,30 @@ def draw_black_mask(path, width, hight):
 def get_mask_image_overlay(image_id):    
     annots = polygons_df.loc[polygons_df["id"] == image_id, 'annotations'].iloc[0]
 
-    ori = cv2.imread(str(ROOT / "train/image" / f"{image_id}.tif"))
+    ori = cv2.imread(str(ROOT / "train/ori_image" / f"{image_id}.png"))
     path = str(ROOT / "train/mask" / f"{image_id}.png")
     draw_black_mask(path, ori.shape[0], ori.shape[1])
     img = cv2.imread(path)
     # cv2.imshow("img" , img)
     
-    WHITE = (255,255,255)
+    # WHITE = (255,255,255)
     
+    cnt = 0
     for annot in annots:
         if annot['type'] == 'blood_vessel':
+            cnt += 1
             coords = np.array(annot['coordinates'])
             # cv2.polylines(img, coords, True, WHITE, 3)
-            cv2.fillPoly(img, coords, WHITE)
-            cv2.imwrite(path, img)
+            cv2.fillPoly(img, coords, (255-10*cnt, 255-5*cnt, 255-cnt))
+         
     
+    if cnt > 0:
+        cv2.imwrite(path, img)
+    else:
+        pathfile = Path(path)
+        pathfile.unlink()
+        print(path)
+
     return img
 
 if __name__ == '__main__':
