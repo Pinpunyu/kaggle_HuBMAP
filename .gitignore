@@ -1,3 +1,5 @@
-data/*/*
+data
 detection
 test.ipynb
+SGD_output
+train_output.txt
