@@ -1,5 +1,5 @@
 data
 detection
+model
+output
 test.ipynb
-SGD_output
-train_output.txt
