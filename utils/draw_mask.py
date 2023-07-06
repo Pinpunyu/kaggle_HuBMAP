@@ -19,9 +19,6 @@ def get_mask_image_overlay(image_id):
     path = str(ROOT / "train/mask" / f"{image_id}.png")
     draw_black_mask(path, ori.shape[0], ori.shape[1])
     img = cv2.imread(path)
-    # cv2.imshow("img" , img)
-    
-    # WHITE = (255,255,255)
     
     cnt = 0
     for annot in annots:

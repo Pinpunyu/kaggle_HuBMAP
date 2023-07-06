@@ -3,6 +3,7 @@ import shutil
 import cv2
 import torch
 import numpy as np
+from PIL import Image
 
 def tiftopng():
     images = Path("./data/hubmap-hacking-the-human-vasculature/train/image").glob("*.tif")
@@ -44,17 +45,29 @@ def img_showmask(img, mask):
     # cv2.waitKey()
     return img
 
+def remove_no_mask(path):
+
+    for img in path.iterdir():
+        hands_mask = Image.open(str(img))
+        r, g, b = hands_mask.getextrema()
+        if r[1] == 0 and g[1] == 0 and b[1] == 0:
+            img.unlink()
+            img = Path(str(img).replace("mask", "image"))
+            img.unlink()
 
 if __name__ == '__main__':
 
+    # move
     # move()
-    imgpath = './data/hubmap-hacking-the-human-vasculature/train/ori_image/0a1d277fb473.png'
-    maskpath = './data/hubmap-hacking-the-human-vasculature/train/mask/0a1d277fb473.png'
-    img = cv2.imread(imgpath)
-    mask = cv2.imread(maskpath)
-    img_showmask(img, mask)
-    # boxes = torch.as_tensor([[183.,   0., 511., 511.]])
-    # print(boxes)
-    # area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
-    # print(boxes[:, 3])
+
+    # img_showmask
+    # imgpath = './data/hubmap-hacking-the-human-vasculature/train/ori_image/0a1d277fb473.png'
+    # maskpath = './data/hubmap-hacking-the-human-vasculature/train/mask/0a1d277fb473.png'
+    # img = cv2.imread(imgpath)
+    # mask = cv2.imread(maskpath)
+    # img_showmask(img, mask)
+
+    # remove_no_mask
+    path = Path("./data/hubmap-hacking-the-human-vasculature/train/mask")
+    remove_no_mask(path)
        
